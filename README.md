@@ -2,6 +2,8 @@
 
 > Get and update GitHub repository topics.
 
+Follow this project's author, [Jon Schlinkert](https://github.com/jonschlinkert), for updates on this project and others.
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -35,10 +37,16 @@ Status: 200 OK
 
 ## API
 
+### [topics](index.js#L30)
+
+List all topics for a repository. The main export is a function that calls the [.get](#get) method.
+
 **Params**
 
+* `owner` **{String}**: Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+* `repo` **{String|Object}**: Repository name or options.
 * `options` **{Object}**
-* `returns` **{Object}**
+* `returns` **{Promise}**
 
 **Example**
 
@@ -55,14 +63,43 @@ topics('micromatch/micromatch', options)
   .catch(console.error)
 ```
 
-### [.get](index.js#L50)
+### [.request](index.js#L58)
+
+Create a topics request with the given `method`, `owner`, `repo` and `options`.
+
+**Params**
+
+* `method` **{String}**
+* `owner` **{String}**: Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+* `repo` **{String|Object}**: Repository name or options.
+* `options` **{Object}**
+* `returns` **{Promise}**
+
+**Example**
+
+```js
+var options = {
+  username: 'your_username',
+  password: 'your_password'
+};
+
+topics.request('get', 'micromatch', 'micromatch', options)
+  .then(function(topics) {
+    console.log('topics', topics);
+  })
+  .catch(console.error)
+```
+
+### [.get](index.js#L109)
 
 List all topics for a repository.
 
 **Params**
 
+* `owner` **{String}**: Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+* `repo` **{String|Object}**: Repository name or options.
 * `options` **{Object}**
-* `returns` **{Object}**
+* `returns` **{Promise}**
 
 **Example**
 
@@ -79,14 +116,16 @@ topics.get('micromatch/micromatch', options)
   .catch(console.error)
 ```
 
-### [.put](index.js#L81)
+### [.put](index.js#L142)
 
 Replace all topics for a repository.
 
 **Params**
 
+* `owner` **{String}**: Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+* `repo` **{String|Object}**: Repository name or options.
 * `options` **{Object}**
-* `returns` **{Object}**
+* `returns` **{Promise}**
 
 **Example**
 
@@ -110,7 +149,63 @@ topics.put('micromatch/micromatch', options)
   .catch(console.error)
 ```
 
+### [.patch](index.js#L177)
+
+Gets all topics for a repository and then replaces the existing topics with one or more additional topics defined on `options.names`. Send an empty array (`[]
+
+**Params**
+
+* `owner` **{String}**: Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+* `repo` **{String|Object}**: Repository name or options.
+* `options` **{Object}**
+* `returns` **{Promise}**
+
+**Example**
+
+```js
+var options = {
+  username: 'your_username',
+  password: 'your_password',
+
+  // new topics to use (overwrites all existing topics)
+  names: [
+    'foo',
+    'bar',
+    'baz'
+  ]
+};
+
+topics.patch('micromatch/micromatch', options)
+  .then(function(topics) {
+    console.log('topics', topics);
+  })
+  .catch(console.error)
+```
+
+### [.normalize](index.js#L202)
+
+Utility for normalizing options. This is already used in
+necessary places in the other request methods, but it's exposed for
+unit tests and debugging.
+
+**Params**
+
+* `owner` **{String}**
+* `repo` **{String}**
+* `options` **{String}**
+* `returns` **{Object}**: Returns the options object to use with the request methods.
+
 ## About
+
+### Related projects
+
+You might also be interested in these projects:
+
+* [github-base](https://www.npmjs.com/package/github-base): JavaScript wrapper that greatly simplifies working with GitHub's API. | [homepage](https://github.com/jonschlinkert/github-base "JavaScript wrapper that greatly simplifies working with GitHub's API.")
+* [github-contributors](https://www.npmjs.com/package/github-contributors): Generate a markdown or JSON list of contributors for a project using the GitHub API. | [homepage](https://github.com/jonschlinkert/github-contributors "Generate a markdown or JSON list of contributors for a project using the GitHub API.")
+* [github-metadata](https://www.npmjs.com/package/github-metadata): Gather GitHub metadata about a repository. | [homepage](https://github.com/doowb/github-metadata "Gather GitHub metadata about a repository.")
+* [github-traffic](https://www.npmjs.com/package/github-traffic): Get the Github traffic for the specified repository | [homepage](https://github.com/doowb/github-traffic "Get the Github traffic for the specified repository")
+* [repos](https://www.npmjs.com/package/repos): Pull down a list of GitHub repositories for the specified user or org, and save… [more](https://github.com/jonschlinkert/repos) | [homepage](https://github.com/jonschlinkert/repos "Pull down a list of GitHub repositories for the specified user or org, and save to a local JSON file.")
 
 ### Contributing
 
@@ -150,4 +245,4 @@ Released under the [MIT License](LICENSE).
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on August 07, 2017._
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on August 21, 2017._
