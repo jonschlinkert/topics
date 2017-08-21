@@ -201,10 +201,13 @@ unit tests and debugging.
 
 You might also be interested in these projects:
 
+* [commits](https://www.npmjs.com/package/commits): List the commits on a GitHub repository. | [homepage](https://github.com/jonschlinkert/commits "List the commits on a GitHub repository.")
+* [gists](https://www.npmjs.com/package/gists): Methods for working with the GitHub Gist API. Node.js/JavaScript | [homepage](https://github.com/jonschlinkert/gists "Methods for working with the GitHub Gist API. Node.js/JavaScript")
 * [github-base](https://www.npmjs.com/package/github-base): JavaScript wrapper that greatly simplifies working with GitHub's API. | [homepage](https://github.com/jonschlinkert/github-base "JavaScript wrapper that greatly simplifies working with GitHub's API.")
 * [github-contributors](https://www.npmjs.com/package/github-contributors): Generate a markdown or JSON list of contributors for a project using the GitHub API. | [homepage](https://github.com/jonschlinkert/github-contributors "Generate a markdown or JSON list of contributors for a project using the GitHub API.")
 * [github-metadata](https://www.npmjs.com/package/github-metadata): Gather GitHub metadata about a repository. | [homepage](https://github.com/doowb/github-metadata "Gather GitHub metadata about a repository.")
 * [github-traffic](https://www.npmjs.com/package/github-traffic): Get the Github traffic for the specified repository | [homepage](https://github.com/doowb/github-traffic "Get the Github traffic for the specified repository")
+* [github-trees](https://www.npmjs.com/package/github-trees): Get a tree from a GitHub repository. | [homepage](https://github.com/jonschlinkert/github-trees "Get a tree from a GitHub repository.")
 * [repos](https://www.npmjs.com/package/repos): Pull down a list of GitHub repositories for the specified user or org, and save… [more](https://github.com/jonschlinkert/repos) | [homepage](https://github.com/jonschlinkert/repos "Pull down a list of GitHub repositories for the specified user or org, and save to a local JSON file.")
 
 ### Contributing
@@ -212,6 +215,13 @@ You might also be interested in these projects:
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
 Please read the [contributing guide](.github/contributing.md) for advice on opening issues, pull requests, and coding standards.
+
+### Contributors
+
+| **Commits** | **Contributor** | 
+| --- | --- |
+| 10 | [jonschlinkert](https://github.com/jonschlinkert) |
+| 2 | [doowb](https://github.com/doowb) |
 
 ### Building docs
 
