@@ -43,6 +43,15 @@
     "plugins": [
       "gulp-format-md"
     ],
+    "related": {
+      "list": [
+        "github-base",
+        "github-contributors",
+        "github-metadata",
+        "github-traffic",
+        "repos"
+      ]
+    },
     "lint": {
       "reflinks": true
     }
