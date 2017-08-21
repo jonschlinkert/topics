@@ -201,11 +201,12 @@ topics.patch = function(owner, repo, options) {
 
 topics.normalize = function(owner, repo, options) {
   if (isObject(repo)) {
-    options = repo;
+    options = Object.assign({}, repo, options);
     var segs = owner.split('/');
     owner = segs.shift();
     repo = segs.pop();
   } else if (isObject(owner)) {
+    options = Object.assign({}, owner, repo, options);
     options = owner;
     owner = null;
     repo = null;
