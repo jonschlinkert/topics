@@ -1,7 +1,7 @@
 {
   "name": "topics",
   "description": "Get and update GitHub repository topics.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/jonschlinkert/topics",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/topics",
@@ -48,6 +48,9 @@
         "github-contributors",
         "github-metadata",
         "github-traffic",
+        "github-trees",
+        "commits",
+        "gists",
         "repos"
       ]
     },
