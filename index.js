@@ -20,6 +20,8 @@ var union = require('arr-union');
  *   })
  *   .catch(console.error)
  * ```
+ * @param {String} `owner` Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+ * @param {String|Object} `repo` Repository name or options.
  * @param {Object} `options`
  * @return {Promise}
  * @api public
@@ -46,29 +48,33 @@ function topics(owner, repo, options) {
  *   .catch(console.error)
  * ```
  * @param {String} `method`
- * @param {String} `owner`
- * @param {String} `repo`
+ * @param {String} `owner` Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+ * @param {String|Object} `repo` Repository name or options.
  * @param {Object} `options`
  * @return {Promise}
  * @api public
  */
 
 topics.request = function(method, owner, repo, options) {
+  if (typeof method !== 'string') {
+    return Promise.reject(new TypeError('expected method to be a string'));
+  }
   if (typeof owner === 'undefined') {
     return Promise.reject(new TypeError('expected a string or object'));
   }
 
   // opts for `new GitHub` and opts for `put`
   // need to have separate keys to work correctly
-  var opts = normalize(owner, repo, options);
+  var opts = topics.normalize(owner, repo, options);
   var data = {names: arrayify(opts.names)};
   delete opts.names;
 
   var github = new GitHub(opts);
   var config = Object.assign({}, opts, data);
+  var key = method.toLowerCase();
 
   return new Promise(function(resolve, reject) {
-    github[method]('/repos/:owner/:repo/topics', config, function(err, res) {
+    github[key]('/repos/:owner/:repo/topics', config, function(err, res) {
       if (err) {
         reject(err);
         return;
@@ -93,6 +99,8 @@ topics.request = function(method, owner, repo, options) {
  *   })
  *   .catch(console.error)
  * ```
+ * @param {String} `owner` Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+ * @param {String|Object} `repo` Repository name or options.
  * @param {Object} `options`
  * @return {Promise}
  * @api public
@@ -124,6 +132,8 @@ topics.get = function(owner, repo, options) {
  *   })
  *   .catch(console.error)
  * ```
+ * @param {String} `owner` Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+ * @param {String|Object} `repo` Repository name or options.
  * @param {Object} `options`
  * @return {Promise}
  * @api public
@@ -134,8 +144,9 @@ topics.put = function(owner, repo, options) {
 };
 
 /**
- * Get all topics for a repository and then patch them to include
- * the given `options.names`.
+ * Gets all topics for a repository and then replaces the existing
+ * topics with one or more additional topics defined on `options.names`.
+ * Send an empty array (`[]`) to clear all topics from the repository.
  *
  * ```js
  * var options = {
@@ -150,12 +161,14 @@ topics.put = function(owner, repo, options) {
  *   ]
  * };
  *
- * topics.put('micromatch/micromatch', options)
+ * topics.patch('micromatch/micromatch', options)
  *   .then(function(topics) {
  *     console.log('topics', topics);
  *   })
  *   .catch(console.error)
  * ```
+ * @param {String} `owner` Either `owner/repo` combination, or `owner` if `repo` is the second argument.
+ * @param {String|Object} `repo` Repository name or options.
  * @param {Object} `options`
  * @return {Promise}
  * @api public
@@ -168,13 +181,25 @@ topics.patch = function(owner, repo, options) {
         return Promise.resolve(res);
       }
 
-      var opts = normalize(owner, repo, options);
+      var opts = topics.normalize(owner, repo, options);
       opts.names = union([], res.names, opts.names);
       return topics.put(opts);
     });
 };
 
-function normalize(owner, repo, options) {
+/**
+ * Utility for normalizing options. This is already used in
+ * necessary places in the other request methods, but it's exposed for
+ * unit tests and debugging.
+ *
+ * @param {String} `owner`
+ * @param {String} `repo`
+ * @param {String} `options`
+ * @return {Object} Returns the options object to use with the request methods.
+ * @api public
+ */
+
+topics.normalize = function(owner, repo, options) {
   if (isObject(repo)) {
     options = repo;
     var segs = owner.split('/');
@@ -195,7 +220,7 @@ function normalize(owner, repo, options) {
   };
 
   return Object.assign({}, defaults, options);
-}
+};
 
 function arrayify(val) {
   return val ? (Array.isArray(val) ? val : [val]) : [];
