@@ -58,11 +58,17 @@ topics.request = function(method, owner, repo, options) {
     return Promise.reject(new TypeError('expected a string or object'));
   }
 
+  // opts for `new GitHub` and opts for `put`
+  // need to have separate keys to work correctly
   var opts = normalize(owner, repo, options);
+  var data = {names: arrayify(opts.names)};
+  delete opts.names;
+
   var github = new GitHub(opts);
+  var config = Object.assign({}, opts, data);
 
   return new Promise(function(resolve, reject) {
-    github[method]('/repos/:owner/:repo/topics', opts, function(err, res) {
+    github[method]('/repos/:owner/:repo/topics', config, function(err, res) {
       if (err) {
         reject(err);
         return;
@@ -164,8 +170,6 @@ topics.patch = function(owner, repo, options) {
 
       var opts = normalize(owner, repo, options);
       opts.names = union([], res.names, opts.names);
-      opts.topics = opts.names;
-
       return topics.put(opts);
     });
 };
@@ -191,6 +195,10 @@ function normalize(owner, repo, options) {
   };
 
   return Object.assign({}, defaults, options);
+}
+
+function arrayify(val) {
+  return val ? (Array.isArray(val) ? val : [val]) : [];
 }
 
 /**
